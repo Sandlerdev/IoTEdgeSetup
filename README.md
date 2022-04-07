@@ -33,6 +33,15 @@ wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSet
 
 **Executing the script(s):**
 
+Prior to executing the script it necessary to provide exectute permissions to the file as shown below:
+
+
+
+```bash
+chmod +x ./<script name>
+```
+After completing the above you can execute the script as shown below.
+
 ```bash
 sudo ./<script name>
 ```
