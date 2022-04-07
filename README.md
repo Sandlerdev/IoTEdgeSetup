@@ -47,4 +47,8 @@ At this point you will recieve the following prompt:
 
 Copy the connection string from IoT Hub and paste it in the command prompt and press enter. 
 
+![constring](./images/connectionString.png)
+
+There will be various prompts to confirm download and installation of software.  Select Yes (Y) for all.
+
 Provided no issues are encountered the configuration should proceed and complete the configuration.
