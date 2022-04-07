@@ -16,19 +16,19 @@ Download the appropriate script for your operating system. This can be done via 
 ### Raspberry PI
 
 ```bash
-wget url
+wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/IoTEdgeSetup_PI.sh
 ```
 
 ### Ubuntu 18.x
 
 ```bash
-wget url
+wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSetup_ubuntu18.sh
 ```
 
 ### Ubuntu 20.x
 
 ```bash
-wget url
+wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSetup_ubuntu20.sh
 ```
 
 **Executing the script(s):**
