@@ -41,7 +41,7 @@ At this point you will recieve the following prompt:
 
 ```bash
 
-Please Provide the device Connection string from Azure IoT Hub for this device.
+"Please Provide the device Connection string from Azure IoT Hub for this device."
 
 ```
 
