@@ -1,0 +1,85 @@
+{
+    "modulesContent": {
+        "$edgeAgent": {
+            "properties.desired": {
+                "modules": {
+                    "CGPModule": {
+                        "settings": {
+                            "image": "pcbteam.azurecr.io/cgp-cda-poc:0.0.84-amd64",
+                            "createOptions": ""
+                        },
+                        "type": "docker",
+                        "env": {
+                            "deviceAddress": {
+                                "value": "ra-cip-value://cgp-cda-adapter/10.91.22.170"
+                            },
+                            "browseAddress": {
+                                "value": "ra-cip-browse://cgp-cda-adapter/10.91.22.170"
+                            },
+                            "pollingRate": {
+                                "value": "59000"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always",
+                        "version": "1.0"
+                    },
+                    "OPCUAServer": {
+                        "settings": {
+                            "image": "pcbteam.azurecr.io/opcua-server-edge:0.0.27-amd64",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"7718/tcp\":[{\"HostPort\":\"7718\"}]}}}"
+                        },
+                        "type": "docker",
+                        "status": "running",
+                        "restartPolicy": "always",
+                        "version": "1.0"
+                    }
+                },
+                "runtime": {
+                    "settings": {
+                        "minDockerVersion": "v1.25",
+                        "registryCredentials": {
+                            "PCBTeam": {
+                                "address": "pcbteam.azurecr.io",
+                                "password": "n7Crlg4jR1C9WDGN3kyBlBTWHH2mRC9+",
+                                "username": "PCBTeam"
+                            }
+                        }
+                    },
+                    "type": "docker"
+                },
+                "schemaVersion": "1.1",
+                "systemModules": {
+                    "edgeAgent": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-agent:1.1",
+                            "createOptions": ""
+                        },
+                        "type": "docker"
+                    },
+                    "edgeHub": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-hub:1.1",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"443/tcp\":[{\"HostPort\":\"443\"}],\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}]}}}"
+                        },
+                        "type": "docker",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                }
+            }
+        },
+        "$edgeHub": {
+            "properties.desired": {
+                "routes": {
+                    "CGPToOPC": "FROM /messages/modules/CGPModule/outputs/output1 INTO BrokeredEndpoint(\"/modules/OPCUAServer/inputs/input1\")",
+                    "CGPToCloud": "FROM /messages/modules/CGPModule/outputs/output1 INTO $upstream"
+                },
+                "schemaVersion": "1.1",
+                "storeAndForwardConfiguration": {
+                    "timeToLiveSecs": 7200
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,7 @@
 #!/bin/bash
 
  subscription="az2p-0280-ITDEnterpriseIntegration-ITD-POWER CONTROL BUSINESS"
- iothubName="ar4IoTHub"
+ iothubName="itdIoTHub"
  device1Name="PowerFlexEdge"
  device2Name="KinetixEdge"
  device3Name="IO_LinkEdge"

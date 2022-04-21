@@ -1,0 +1,150 @@
+{
+    "modulesContent": {
+        "$edgeAgent": {
+            "properties.desired": {
+                "modules": {
+                    "CGPModule": {
+                        "settings": {
+                            "image": "pcbteam.azurecr.io/cgp-cda-poc:0.0.85-amd64",
+                            "createOptions": ""
+                        },
+                        "type": "docker",
+                        "version": "1.0",
+                        "env": {
+                            "deviceAddress": {
+                                "value": "ra-cip-value://cgp-cda-adapter/10.91.162.108"
+                            },
+                            "browseAddress": {
+                                "value": "ra-cip-browse://cgp-cda-adapter/10.91.162.108"
+                            },
+                            "pollingRate": {
+                                "value": "59000"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always"
+                    },
+                    "OPCUAServer": {
+                        "settings": {
+                            "image": "pcbteam.azurecr.io/opcua-server-edge:0.0.19-amd64",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"7718/tcp\":[{\"HostPort\":\"7718\"}]}}}"
+                        },
+                        "type": "docker",
+                        "version": "1.0",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    },
+                    "fileupload": {
+                        "settings": {
+                            "image": "eidevcontainers.azurecr.io/fileupload:0.4.8-amd64.debug",
+                            "createOptions": "{\"HostConfig\":{\"Binds\":[\"/etc/aziot/storage/:/app/temp/\"]}}"
+                        },
+                        "type": "docker",
+                        "env": {
+                            "storageFolder": {
+                                "value": "/app/temp/"
+                            },
+                            "deviceConnectionString": {
+                                "value": "constring"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always",
+                        "version": "1.0"
+                    },
+                    "fiixmeterwrites": {
+                        "settings": {
+                            "image": "eidevcontainers.azurecr.io/fiixmeterwrites:0.0.12-amd64.debug",
+                            "createOptions": ""
+                        },
+                        "type": "docker",
+                        "env": {
+                            "secretKey": {
+                                "value": "macmmsaskp384e6b787a5c270fbcb32ad7ba00f3ebaab3a5ae6f72947f20ce19bee90a88cf029"
+                            },
+                            "appKey": {
+                                "value": "macmmsackp38473aa3687bde387c0aa06d31c692855f9fde2b366c4a048360de4"
+                            },
+                            "accessKey": {
+                                "value": "macmmsaakp384b7a15cc04db94fabae2a0f32ce94f91cecd76dc8c3634a89dfc2"
+                            },
+                            "subdomain": {
+                                "value": "https://rw12345.macmms.com/api/"
+                            },
+                            "writeFrequency": {
+                                "value": "5"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always",
+                        "version": "1.0"
+                    }
+                },
+                "runtime": {
+                    "settings": {
+                        "minDockerVersion": "v1.25",
+                        "registryCredentials": {
+                            "PCBTeam": {
+                                "address": "pcbteam.azurecr.io",
+                                "password": "n7Crlg4jR1C9WDGN3kyBlBTWHH2mRC9+",
+                                "username": "PCBTeam"
+                            },
+                            "EIDevContainers": {
+                                "address": "eidevcontainers.azurecr.io",
+                                "password": "NCYVeH28bRqRIbzrQp4bmAuejpRy38F/",
+                                "username": "EIDevContainers"
+                            }
+                        }
+                    },
+                    "type": "docker"
+                },
+                "schemaVersion": "1.1",
+                "systemModules": {
+                    "edgeAgent": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-agent:1.1",
+                            "createOptions": ""
+                        },
+                        "type": "docker"
+                    },
+                    "edgeHub": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-hub:1.1",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"443/tcp\":[{\"HostPort\":\"443\"}],\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}]}}}"
+                        },
+                        "type": "docker",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                }
+            }
+        },
+        "$edgeHub": {
+            "properties.desired": {
+                "routes": {
+                    "CGPToOPC": "FROM /messages/modules/CGPModule/outputs/output1 INTO BrokeredEndpoint(\"/modules/OPCUAServer/inputs/input1\")",
+                    "CGPToFiix": "FROM /messages/modules/CGPModule/outputs/* INTO BrokeredEndpoint(\"/modules/fiixmeterwrites/inputs/input1\")",
+                    "fileuploadToCloud": "FROM /messages/modules/FileUpload/outputs/* INTO $upstream",
+                    "CGPToFileUpload": "FROM /messages/modules/CGPModule/outputs/* INTO BrokeredEndpoint(\"/modules/fileupload/inputs/input1\")"
+                },
+                "schemaVersion": "1.1",
+                "storeAndForwardConfiguration": {
+                    "timeToLiveSecs": 7200
+                }
+            }
+        },
+        "fileupload": {
+            "properties.desired": {
+                "verboseLogging": false,
+                "bufferInterval": 5,
+                "use_cold_path": true,
+                "deviceTagList": {
+                    "PowerFlexEdge": [
+                        "Runtime.Power.Input.Power",
+                        "Runtime.Power.Input.Frequency"
+                    ]
+                }
+            }
+        }
+    }
+}
