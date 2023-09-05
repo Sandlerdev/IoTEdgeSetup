@@ -31,7 +31,7 @@ wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSet
 wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSetup_ubuntu20.sh
 ```
 
-### Ubuntu 20.x
+### Ubuntu 22.x
 
 ```bash
 wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSetup_ubuntu22.sh
