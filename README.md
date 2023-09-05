@@ -31,6 +31,13 @@ wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSet
 wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSetup_ubuntu20.sh
 ```
 
+### Ubuntu 20.x
+
+```bash
+wget https://raw.githubusercontent.com/Sandlerdev/IoTEdgeSetup/master/ioTEdgeSetup_ubuntu22.sh
+```
+
+
 **Executing the script(s):**
 
 Prior to executing the script it necessary to provide exectute permissions to the file as shown below:
